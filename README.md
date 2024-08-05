@@ -2,11 +2,11 @@
 
 This script integrates with WoWChat/AscensionChat to automatically assign roles to Discord server members based on their character names mentioned in the chat.
 
-### How it Works
+### 📜 How it Works
 
 The script uses the `discord.py` library to interact with the Discord API. It sends a `?who` command to the specified channel, which triggers the WoWChat/AscensionChat bot to respond with a list of character names. The script then extracts the character names using regular expressions (regex) and assigns the specified role to Discord server members with matching names. It will then continue to monitor the specified channel while running. If anyone sends a `?who` command, this bot will once again parse the response and assign roles to those without the role already.
 
-## Setup
+## 💡 Setup
 
 ### Create the Discord Bot
 
@@ -49,14 +49,14 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 <img src="images/3_bot_perms.png" width="650"/>
 </details>
 
-## Install Dependencies
+## 💻 Install Dependencies
 
 ### Install Required Packages
 
 1. Install [**Python**](https://www.python.org/downloads/), if you don't have it installed already.
 2. Go to [**Installing discord.py**](https://discordpy.readthedocs.io/en/stable/intro.html#installing). Follow the instructions to install the `discord.py` library/module required to run this script.
 
-## Config
+## 🛠️ Configuration
 
 ### Configure the Script
 
@@ -67,7 +67,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 5. Replace `YourRole` with the name of the role you want the bot to assign.
 6. Replace `YourWowChatBot` with the name of your WoWChat/AscensionChat bot. _(your bot that replies to the `?who` command)_
 
-## Run
+## 🚀 Run
 
 ### Run the Script
 
