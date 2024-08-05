@@ -15,6 +15,11 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 3. Copy your bot TOKEN. _(You might need to reset it first.)_
 4. Disable "Public Bot".
 5. Under "Privileged Gateway Intents", enable `Server Members Intent` and `Message Content Intent`.
+
+Intents
+
+<img src="images/1_intents.png" width="800"/>
+
 6. To skip steps 7-9:
 
    - Copy this link, making sure to replace `YOUR_CLIENT_ID` with your bot's client ID. Open the link in your browser to invite the bot.
@@ -24,8 +29,18 @@ The script uses the `discord.py` library to interact with the Discord API. It se
      ```
 
 7. Go to the "OAuth2" tab and select "bot" under "OAuth2 URL Generator -> Scopes"
+
+OAuth2
+
+<img src="images/2_oAuthGen.png" width="650"/>
+
 8. Underneath "Scopes" in "Bot Permissions" select: "Manage Roles", "Send Messages" and "Read Message History".
-9. Copy the generated URL and open it in a browser. You can now invite the bot to your Discord Server.
+
+Permissions
+
+<img src="images/3_bot_perms.png" width="650"/>
+
+9. Copy the generated URL _(See bottom of Screenshot ^)_ and open it in a browser. You can now invite the bot to your Discord Server.
 
 ### Install Required Packages
 
