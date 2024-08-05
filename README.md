@@ -49,10 +49,14 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 <img src="images/3_bot_perms.png" width="650"/>
 </details>
 
+## Install Dependencies
+
 ### Install Required Packages
 
 1. Install [**Python**](https://www.python.org/downloads/), if you don't have it installed already.
 2. Go to [**Installing discord.py**](https://discordpy.readthedocs.io/en/stable/intro.html#installing). Follow the instructions to install the `discord.py` library/module required to run this script.
+
+## Config
 
 ### Configure the Script
 
@@ -62,6 +66,8 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 4. Replace `YourChannelId` with the ID of the channel where this bot will listen for the `?who` command.
 5. Replace `YourRole` with the name of the role you want the bot to assign.
 6. Replace `YourWowChatBot` with the name of your WoWChat/AscensionChat bot. _(your bot that replies to the `?who` command)_
+
+## Run
 
 ### Run the Script
 
