@@ -16,10 +16,10 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 4. Disable `Public Bot`.
 5. Under `Privileged Gateway Intents`, enable `Server Members Intent` and `Message Content Intent`.
 
-<details>
-<summary>Intents Example Image</summary>
-<img src="images/1_intents.png" width="800"/>
-</details>
+   <details>
+   <summary>Intents Example Image</summary>
+   <img src="images/1_intents.png" width="800"/>
+   </details>
 
 6. To skip steps 7-9:
 
@@ -35,19 +35,19 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 8. Underneath `Scopes` in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
 
-<details>
-<summary>oAuth2 Example Image</summary>
-<img src="images/2_oAuthGen.png" width="650"/>
-</details>
+   <details>
+   <summary>oAuth2 Example Image</summary>
+   <img src="images/2_oAuthGen.png" width="650"/>
+   </details>
 
 ### Permissions
 
 9. Copy the generated URL and open it in a browser. You can now invite the bot to your Discord Server.
 
-<details>
-<summary>Bot Perms Example Image</summary>
-<img src="images/3_bot_perms.png" width="650"/>
-</details>
+   <details>
+   <summary>Bot Perms Example Image</summary>
+   <img src="images/3_bot_perms.png" width="650"/>
+   </details>
 
 ## 💻 Dependencies
 
