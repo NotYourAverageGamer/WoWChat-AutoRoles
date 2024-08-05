@@ -49,7 +49,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 <img src="images/3_bot_perms.png" width="650"/>
 </details>
 
-## 💻 Install Dependencies
+## 💻 Dependencies
 
 ### Install Required Packages
 
