@@ -1,8 +1,9 @@
 # Autoroles integration for WoWChat/AscensionChat
 
-This script integrates with WoWChat/AscensionChat to automatically assign roles to Discord server members based on their character names mentioned in the chat.
+This script integrates with WoWChat/AscensionChat to automatically assign roles to Discord server members based on their character names in the `?who` reply.
+In-game and Discord Nicknames must match for this to work.
 
-### 📖 How it Works
+## 📖 How it Works
 
 The script uses the `discord.py` library to interact with the Discord API. It sends a `?who` command to the specified channel, which triggers the WoWChat/AscensionChat bot to respond with a list of currently online guild members. The script then extracts the character names using regular expressions (regex) and assigns the specified role to Discord server members with matching names. It will then continue to monitor the specified channel while running. If anyone sends a `?who` command, this bot will once again parse the response and assign roles to those without the role already.
 
@@ -15,15 +16,14 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 3. Copy your bot `TOKEN`. _(You might need to reset it first)_
 4. Disable `Public Bot`.
 
-> [!IMPORTANT]<br>
-> <b>Without these enabled the bot will not work!</b>
-> <br>
+> [!IMPORTANT]
 > 5. Under `Privileged Gateway Intents`: Enable `Server Members Intent` and `Message Content Intent`.
 > <br>
 >   <details>
 >   <summary><i>(click)</i> <b>Intents Example</b></summary>
 >   <img src="images/1_intents.png" width="800"/>
 >   </details>
+> <b>Without these enabled the bot will not work!</b>
 
 6. To skip steps 7-9:
 
@@ -44,15 +44,14 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### <ins>Permissions</ins>
 
-> [!IMPORTANT]<br>
-> <b>Make sure these are correct! Incorrect permissions will cause issues with the bot's functions!</b>
-> <br>
+> [!IMPORTANT]
 > 8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
 > <br>
 >   <details>
 >   <summary><i>(click)</i> <b>Bot Perms Example</b></summary>
 >   <img src="images/3_bot_perms.png" width="650"/>
 >   </details>
+> <b>Make sure these are correct! Incorrect permissions will cause issues with the bot's functions!</b>
 
 9. Copy the generated URL and open it in a browser. You can now invite the bot to your Discord Server.
 
