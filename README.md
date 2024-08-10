@@ -8,46 +8,53 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ## 🛠️ Setup
 
-### Create the Discord Bot
+### <ins>Create the Discord Bot</ins>
 
 1. Go to the [**Discord Developer Portal**](https://discord.com/developers/applications) and create a new app/bot
 2. Click the `Bot` tab on the left side.
 3. Copy your bot `TOKEN`. _(You might need to reset it first)_
 4. Disable `Public Bot`.
-5. Under `Privileged Gateway Intents`, enable `Server Members Intent` and `Message Content Intent`.
 
-   <details>
-   <summary>Intents Example Image</summary>
-   <img src="images/1_intents.png" width="800"/>
-   </details>
+> [!IMPORTANT]<br>
+> <b>Without these enabled the bot will not work!</b>
+> <br>
+> 5. Under `Privileged Gateway Intents`: Enable `Server Members Intent` and `Message Content Intent`.
+> <br>
+>   <details>
+>   <summary><i>(click)</i> <b>Intents Example</b></summary>
+>   <img src="images/1_intents.png" width="800"/>
+>   </details>
 
 6. To skip steps 7-9:
 
-   - Copy this link, making sure to replace `YOUR_CLIENT_ID` with your bot's client ID. Open the link in your browser to invite the bot.
+- Copy this link, making sure to replace `YOUR_CLIENT_ID` with your bot's client ID. Open the link in your browser to invite the bot.
 
      ```https
      https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=268503040&integration_type=0&scope=bot
      ```
 
+### <ins>OAuth2</ins>
+
 7. Go to the `OAuth2` tab and select `bot` under `OAuth2 URL Generator -> Scopes`
 
-### OAuth2
-
-8. Underneath `Scopes` in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
-
    <details>
-   <summary>oAuth2 Example Image</summary>
+   <summary><i>(click)</i> <b>oAuth2 Example</b></summary>
    <img src="images/2_oAuthGen.png" width="650"/>
    </details>
 
-### Permissions
+### <ins>Permissions</ins>
+
+> [!IMPORTANT]<br>
+> <b>Make sure these are correct! Incorrect permissions will cause issues with the bot's functions!</b>
+> <br>
+> 8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
+> <br>
+>   <details>
+>   <summary><i>(click)</i> <b>Bot Perms Example</b></summary>
+>   <img src="images/3_bot_perms.png" width="650"/>
+>   </details>
 
 9. Copy the generated URL and open it in a browser. You can now invite the bot to your Discord Server.
-
-   <details>
-   <summary>Bot Perms Example Image</summary>
-   <img src="images/3_bot_perms.png" width="650"/>
-   </details>
 
 ## 💻 Dependencies
 
