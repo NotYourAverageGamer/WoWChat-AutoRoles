@@ -60,7 +60,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### Install Required Packages
 
-1. Install [**Python**](https://www.python.org/downloads/), if you don't have it installed already.
+1. Install [**Python**](https://www.python.org/downloads/) 3.8 or higher, if you don't have it installed already.
 2. Go to [**Installing discord.py**](https://discordpy.readthedocs.io/en/stable/intro.html#installing). Follow the instructions to install the `discord.py` library/module required to run this script.
 
 ## 🔧 Configuration
