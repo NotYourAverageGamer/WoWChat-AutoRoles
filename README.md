@@ -1,15 +1,16 @@
 # Autoroles integration for WoWChat/AscensionChat
 
 This script integrates with WoWChat/AscensionChat to automatically assign roles to Discord server members based on their character names in the `?who` reply.
-In-game and Discord Nicknames must match for this to work.
+> [!NOTE]
+> In-game and Discord Nicknames must match for this to work.
 
 ## 📖 How it Works
 
-The script uses the `discord.py` library to interact with the Discord API. It sends a `?who` command to the specified channel, which triggers the WoWChat/AscensionChat bot to respond with a list of currently online guild members. The script then extracts the character names using regular expressions (regex) and assigns the specified role to Discord server members with matching names. It will then continue to monitor the specified channel while running. If anyone sends a `?who` command, this bot will once again parse the response and assign roles to those without the role already.
+The script uses the `discord.py` library to interact with the Discord API. It sends a `?who` command to the specified channel, which triggers the WoWChat/AscensionChat bot to respond with a list of currently online guild members. The script then extracts the character names using regular expressions (regex) and assigns the specified role to Discord server members with matching names. It will then continue to monitor the specified channel while running. If anyone sends a `?who` command in the monitored channel, this bot will once again parse the response and assign roles to those without the role already.
 
 ## 🛠️ Setup
 
-### <ins>Create the Discord Bot</ins>
+### Create the Discord Bot
 
 1. Go to the [**Discord Developer Portal**](https://discord.com/developers/applications) and create a new app/bot
 2. Click the `Bot` tab on the left side.
@@ -33,7 +34,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
      https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=268503040&integration_type=0&scope=bot
      ```
 
-### <ins>OAuth2</ins>
+### OAuth2
 
 7. Go to the `OAuth2` tab and select `bot` under `OAuth2 URL Generator -> Scopes`
 
@@ -42,7 +43,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
    <img src="images/2_oAuthGen.png" width="650"/>
    </details>
 
-### <ins>Permissions</ins>
+### Permissions
 
 > [!IMPORTANT]
 > 8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
