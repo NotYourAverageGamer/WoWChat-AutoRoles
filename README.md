@@ -78,8 +78,8 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### Run the Script
 
-1. Save the changes to `wowchat_autoroles.py`.
-2. `cd` into the directory you saved `wowchat_autoroles.py` to. (eg, `cd ~/Downloads/wowchat-autoroles`)
+1. Save the changes to `autoroles.py`.
+2. `cd` into the directory you saved `autoroles.py` to. (eg, `cd ~/Downloads/autoroles`)
 3. Run the script using Python:
-   - Linux/MacOS: `python3 wowchat_autoroles.py`
-   - Windows: `python.exe wowchat_autoroles.py`
+   - Linux/MacOS: `python3 autoroles.py`
+   - Windows: `python.exe autoroles.py`
