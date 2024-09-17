@@ -4,7 +4,7 @@ DISCORD_BOT_TOKEN = 'YourTokenHere' # Replace with your bots token
 GUILD_ID = YourServerID  # Replace with your server ID
 CHANNEL_ID = YourChannelID  # Replace with your channel ID where the `?who` command is issued
 ROLE_NAME = 'YourRoleName'  # Replace with the role name you want to assign
-WOWCHAT = 'YourWowChatBotName' # Username of bot that REPLIES to the `?who` command (without #1234)
+WOWCHAT = 'YourWowChatBotName' # Username of the guildchat relay bot that REPLIES to the `?who` command (without #1234)
 
 intents = discord.Intents.default()
 intents.message_content = True  # Enable message content intent
