@@ -1,34 +1,66 @@
-import re, discord
+import os
+import logging
+import re
+import discord
+from colorama import init, Fore, Style
+from dotenv import load_dotenv
 
-DISCORD_BOT_TOKEN = 'YourTokenHere' # Replace with your bots token
-GUILD_ID = YourServerID  # Replace with your server ID
-CHANNEL_ID = YourChannelID  # Replace with your channel ID where the `?who` command is issued
-ROLE_NAME = 'YourRoleName'  # Replace with the role name you want to assign
-WOWCHAT = 'YourWowChatBotName' # Username of the guildchat relay bot that REPLIES to the `?who` command (without #1234)
+# Initialize colorama and load environment variables
+init()
+load_dotenv()
 
+SERVER_ID = int(os.getenv('SERVER_ID'))
+ROLE_NAME = os.getenv('ROLE_NAME')
+CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+WOWCHAT = os.getenv('WOWCHAT')
+
+# Logging
+class ColorFormatter(logging.Formatter):
+    def format(self, record):
+        date = f'{Fore.LIGHTBLACK_EX}{self.formatTime(record, self.datefmt)}{Style.RESET_ALL}'
+        levelname = {
+            'INFO': f'{Fore.BLUE}{record.levelname}{Style.RESET_ALL}',
+            'ERROR': f'{Fore.RED}{record.levelname}{Style.RESET_ALL}',
+            'WARNING': f'{Fore.YELLOW}{record.levelname}{Style.RESET_ALL}'
+        }.get(record.levelname, record.levelname)
+        message = record.getMessage()
+        return f'{date} {levelname} {message}'
+
+root_logger = logging.getLogger()
+if not root_logger.hasHandlers():
+    handler = logging.StreamHandler()
+    formatter = ColorFormatter('%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    handler.setFormatter(formatter)
+    root_logger.setLevel(logging.INFO)
+    root_logger.addHandler(handler)
+
+discord_logger = logging.getLogger('discord')
+discord_logger.propagate = False
+
+# Intents
 intents = discord.Intents.default()
-intents.message_content = True  # Enable message content intent
-intents.members = True  # Enable privileged members intent
-
+intents.message_content = True
+intents.members = True
 client = discord.Client(intents=intents)
 
 async def parse_and_assign_roles(message_content):
     # Extract player names from the message content using regex
     player_names = re.findall(r'\b[A-Za-z]+(?:\s[A-Za-z]+)*(?=\s\()', message_content)
     if not player_names:
-        print("No player names found in the message content.")
+        logging.warning('%s!! No player names found in message content.%s', Fore.LIGHTYELLOW_EX, Style.RESET_ALL)
         return
 
-    print(f"\nParsed player names: {player_names}")
+    logging.info('%s~ Parsed player names:%s %s', Fore.YELLOW, Style.RESET_ALL, ", ".join(player_names))
 
-    guild = client.get_guild(GUILD_ID)
+    guild = client.get_guild(SERVER_ID)
     if not guild:
-        print(f"Guild with ID {GUILD_ID} not found.")
+        logging.error('%s!! Server with ID%s %d %snot found.%s', Fore.RED, Style.RESET_ALL, SERVER_ID, Fore.RED, Style.RESET_ALL)
         return
 
     role = discord.utils.get(guild.roles, name=ROLE_NAME)
     if not role:
-        print(f"Role '{ROLE_NAME}' not found in the server.")
+        logging.error('%s!! Role %s%s%s not found in the server.%s', Fore.RED, Style.RESET_ALL, ROLE_NAME, Fore.RED, Style.RESET_ALL)
         return
 
     for member in guild.members:
@@ -36,23 +68,22 @@ async def parse_and_assign_roles(message_content):
             if role not in member.roles:
                 try:
                     await member.add_roles(role)
-                    print(f"Assigned {ROLE_NAME} role to {member.display_name}")
+                    logging.info('%s+ Assigned %s%s%s role to %s%s', Fore.GREEN, Style.RESET_ALL, ROLE_NAME, Fore.GREEN, Style.RESET_ALL, member.display_name)
                 except discord.Forbidden:
-                    print(f"Permission denied to assign role to {member.display_name}")
+                    logging.error('%s!! Permission denied assigning role to %s%s', Fore.RED, Style.RESET_ALL, member.display_name)
                 except discord.HTTPException as e:
-                    print(f"Failed to assign role to {member.display_name}: {e}")
+                    logging.error('%s!! Failed assigning role to %s%s: %s', Fore.RED, Style.RESET_ALL, member.display_name, e)
             else:
-                print(f"{member.display_name} already has the {ROLE_NAME} role.")
+                logging.info('%s- %s%s%s already has the %s%s%s role.%s', Fore.BLUE, Style.RESET_ALL, member.display_name, Fore.BLUE, Style.RESET_ALL, ROLE_NAME, Fore.BLUE, Style.RESET_ALL)
 
 @client.event
 async def on_ready():
-    print(f'Logged in as {client.user}')
+    logging.info('%s+ Logged in as %s%s', Fore.GREEN, Style.RESET_ALL, client.user)
     if not client.get_channel(CHANNEL_ID):
-        print(f"Channel with ID {CHANNEL_ID} not found.")
+        logging.error('%s!! Channel with ID %s%d%s not found.%s', Fore.RED, Style.RESET_ALL, CHANNEL_ID, Fore.RED, Style.RESET_ALL)
         await client.close()
         return
 
-    # Sending the ?who command
     await client.get_channel(CHANNEL_ID).send('?who')
 
 @client.event
@@ -61,4 +92,4 @@ async def on_message(message):
         if re.match(r'^Currently \d+ guildies online:', message.content):
             await parse_and_assign_roles(message.content)
 
-client.run(DISCORD_BOT_TOKEN)
+client.run(DISCORD_TOKEN)
