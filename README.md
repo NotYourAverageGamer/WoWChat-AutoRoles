@@ -63,7 +63,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 1. Install [**Python**](https://www.python.org/downloads/) 3.8 or higher, if you don't have it installed already.
 2. Open your terminal and navigate to the WoWChat-AutoRoles directory.
-3. Run the following command to install the dependencies `discord.py`, `python-dotenv` and `colorama`:
+3. Run the following command to install (or update if you already have) the dependencies `discord.py`, `python-dotenv` and `colorama`:
 
    ```terminal
    pip install -U -r requirements.txt
@@ -73,12 +73,14 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### Configure the Script
 
-2. Replace `YOUR_TOKEN` with your Discord bot token.
-3. Replace `YourServerId` with your Discord server ID.
-4. Replace `YourChannelId` with the ID of the channel where this bot will listen for the `?who` command.
-5. Replace `YourRole` with the name of the role you want the bot to assign.
-6. Replace `YourWowChatBot` with the name of your WoWChat/AscensionChat bot. _(your bot that replies to the `?who` command)_
 1. Open `CONFIG.env` in your favorite text editor.
+2. `WHO_INTERVAL_ENABLED` Set `True` or `False` depending on if you want the bot to auto send `?who` at a specified interval. Default is false.
+3. `WHO_INTERVAL_HOURS` Set how often (in hours) the bot should send the `?who` command, if set to `True` above
+4. Replace `YourTokenHere` with your Discord bot token.
+5. Replace `YourServerId` with your Discord server ID.
+6. Replace `YourChannelID` with the Channel ID of the channel this bot will monitor for the `?who` command.
+7. Replace `YourRoleName` with the name of the role you want the bot to assign.
+8. Replace `YourWowChatBotName` with the name of your WoWChat/AscensionChat bot. _(your bot that replies to the `?who` command)_
 
 ## 🚀 Run
 

@@ -1,19 +1,24 @@
 import os
 import logging
 import re
+import asyncio
+
 import discord
-from colorama import init, Fore, Style
 from dotenv import load_dotenv
+from colorama import init, Fore, Style
 
 # Initialize colorama and load environment variables
 init()
 load_dotenv()
 
+# Constants
 SERVER_ID = int(os.getenv('SERVER_ID'))
 ROLE_NAME = os.getenv('ROLE_NAME')
 CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
-DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 WOWCHAT = os.getenv('WOWCHAT')
+WHO_INTERVAL_ENABLED = os.getenv('WHO_INTERVAL_ENABLED', 'False').lower() == 'true'
+WHO_INTERVAL_HOURS = int(os.getenv('WHO_INTERVAL_HOURS', '6'))
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 
 # Logging
 class ColorFormatter(logging.Formatter):
@@ -86,10 +91,20 @@ async def on_ready():
 
     await client.get_channel(CHANNEL_ID).send('?who')
 
+    if WHO_INTERVAL_ENABLED:
+        logging.info('%s~ WHO interval enabled, running every %d hours%s', Fore.CYAN, WHO_INTERVAL_HOURS, Style.RESET_ALL)
+        asyncio.create_task(who_interval_task(CHANNEL_ID, WHO_INTERVAL_HOURS))
+
 @client.event
 async def on_message(message):
     if message.author.name == WOWCHAT and message.channel.id == CHANNEL_ID:
         if re.match(r'^Currently \d+ guildies online:', message.content):
             await parse_and_assign_roles(message.content)
+
+async def who_interval_task(channel_id, interval_hours):
+    while True:
+        await asyncio.sleep(interval_hours * 3600)
+        logging.info('%s~ Running ?who command%s', Fore.CYAN, Style.RESET_ALL)
+        await client.get_channel(channel_id).send('?who')
 
 client.run(DISCORD_TOKEN)
