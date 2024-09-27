@@ -1,6 +1,7 @@
 # Autoroles integration for WoWChat/AscensionChat
 
 This script integrates with WoWChat/AscensionChat to automatically assign roles to Discord server members based on their character names in the `?who` reply.
+
 > [!NOTE]
 > In-game and Discord Nicknames must match for this to work.
 
@@ -17,9 +18,9 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 3. Copy your bot `TOKEN`. _(You might need to reset it first)_
 4. Disable `Public Bot`.
 
-> [!IMPORTANT]
-> 5. Under `Privileged Gateway Intents`: Enable `Server Members Intent` and `Message Content Intent`.
+> [!IMPORTANT] 5. Under `Privileged Gateway Intents`: Enable `Server Members Intent` and `Message Content Intent`.
 > <br>
+>
 >   <details>
 >   <summary><i>(click)</i> <b>Intents Example</b></summary>
 >   <img src="images/1_intents.png" width="800"/>
@@ -30,9 +31,9 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 - Copy this link, making sure to replace `YOUR_CLIENT_ID` with your bot's client ID. Open the link in your browser to invite the bot.
 
-     ```https
-     https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=268503040&integration_type=0&scope=bot
-     ```
+  ```https
+  https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=268503040&integration_type=0&scope=bot
+  ```
 
 ### OAuth2
 
@@ -45,9 +46,9 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### Permissions
 
-> [!IMPORTANT]
-> 8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
+> [!IMPORTANT] 8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
 > <br>
+>
 >   <details>
 >   <summary><i>(click)</i> <b>Bot Perms Example</b></summary>
 >   <img src="images/3_bot_perms.png" width="650"/>
@@ -61,25 +62,30 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 ### Install Required Packages
 
 1. Install [**Python**](https://www.python.org/downloads/) 3.8 or higher, if you don't have it installed already.
-2. Go to [**Installing discord.py**](https://discordpy.readthedocs.io/en/stable/intro.html#installing). Follow the instructions to install the `discord.py` library/module required to run this script.
+2. Open your terminal and navigate to the WoWChat-AutoRoles directory.
+3. Run the following command to install the dependencies `discord.py`, `python-dotenv` and `colorama`:
+
+   ```terminal
+   pip install -U -r requirements.txt
+   ```
 
 ## 🔧 Configuration
 
 ### Configure the Script
 
-1. Open `wowchat_autoroles.py` in your favorite text editor.
 2. Replace `YOUR_TOKEN` with your Discord bot token.
 3. Replace `YourServerId` with your Discord server ID.
 4. Replace `YourChannelId` with the ID of the channel where this bot will listen for the `?who` command.
 5. Replace `YourRole` with the name of the role you want the bot to assign.
 6. Replace `YourWowChatBot` with the name of your WoWChat/AscensionChat bot. _(your bot that replies to the `?who` command)_
+1. Open `CONFIG.env` in your favorite text editor.
 
 ## 🚀 Run
 
 ### Run the Script
 
-1. Save the changes to `autoroles.py`.
-2. `cd` into the directory you saved `autoroles.py` to. (eg, `cd ~/Downloads/autoroles`)
+1. Save your config changes and rename `CONFIG.env` to just `.env`.
+2. Open your terminal and `cd` into the directory you saved `autoroles.py` to. (eg, `cd ~/Downloads/autoroles`)
 3. Run the script using Python:
    - Linux/MacOS: `python3 autoroles.py`
    - Windows: `python.exe autoroles.py`
