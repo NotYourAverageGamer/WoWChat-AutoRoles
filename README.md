@@ -18,7 +18,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 3. Copy your bot `TOKEN`. _(You might need to reset it first)_
 4. Disable `Public Bot`.
 
-> [!IMPORTANT] 5. Under `Privileged Gateway Intents`: Enable `Server Members Intent` and `Message Content Intent`.
+> [!IMPORTANT]<br>5. Under `Privileged Gateway Intents`: Enable `Server Members Intent` and `Message Content Intent`.
 > <br>
 >
 >   <details>
@@ -46,7 +46,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### Permissions
 
-> [!IMPORTANT] 8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
+> [!IMPORTANT]<br>8. Underneath `Scopes`, in `Bot Permissions` select: `Manage Roles`, `Send Messages` and `Read Message History`.
 > <br>
 >
 >   <details>
@@ -81,13 +81,13 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 6. Replace `YourChannelID` with the Channel ID of the channel this bot will monitor for the `?who` command.
 7. Replace `YourRoleName` with the name of the role you want the bot to assign.
 8. Replace `YourWowChatBotName` with the name of your WoWChat/AscensionChat bot. _(your bot that replies to the `?who` command)_
+9. Save your config changes and rename `CONFIG.env` to just `.env`.
 
 ## 🚀 Run
 
 ### Run the Script
 
-1. Save your config changes and rename `CONFIG.env` to just `.env`.
-2. Open your terminal and `cd` into the directory you saved `autoroles.py` to. (eg, `cd ~/Downloads/autoroles`)
-3. Run the script using Python:
+1. Open your terminal and `cd` into the directory you saved `autoroles.py` to. (eg, `cd ~/Downloads/autoroles`)
+2. Run the script using Python:
    - Linux/MacOS: `python3 autoroles.py`
    - Windows: `python.exe autoroles.py`
