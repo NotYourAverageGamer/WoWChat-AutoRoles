@@ -87,7 +87,7 @@ The script uses the `discord.py` library to interact with the Discord API. It se
 
 ### Run the Script
 
-1. Open your terminal and `cd` into the directory you saved `autoroles.py` to. (eg, `cd ~/Downloads/autoroles`)
+1. Open your terminal and `cd` into the `src` directory that `autoroles.py` is saved in. (eg, `cd ~/Downloads/WoWChat-AutoRoles/src`)
 2. Run the script using Python:
    - Linux/MacOS: `python3 autoroles.py`
    - Windows: `python.exe autoroles.py`
