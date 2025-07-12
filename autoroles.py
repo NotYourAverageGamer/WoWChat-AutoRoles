@@ -1,110 +1,56 @@
-import os
+__version__ = "2.0.0"
+
 import logging
 import re
 import asyncio
-
 import discord
-from dotenv import load_dotenv
-from colorama import init, Fore, Style
 
-# Initialize colorama and load environment variables
-init()
-load_dotenv()
+from colorama import Fore, Style
+from config import load_config
+from logger import setup_logger
+from roles import parse_and_assign_roles
 
-# Constants
-SERVER_ID = int(os.getenv('SERVER_ID'))
-ROLE_NAME = os.getenv('ROLE_NAME')
-CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
-WOWCHAT = os.getenv('WOWCHAT')
-WHO_INTERVAL_ENABLED = os.getenv('WHO_INTERVAL_ENABLED', 'False').lower() == 'true'
-WHO_INTERVAL_HOURS = int(os.getenv('WHO_INTERVAL_HOURS', '6'))
-DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 
-# Logging
-class ColorFormatter(logging.Formatter):
-    def format(self, record):
-        date = f'{Fore.LIGHTBLACK_EX}{self.formatTime(record, self.datefmt)}{Style.RESET_ALL}'
-        levelname = {
-            'INFO': f'{Fore.BLUE}{record.levelname}{Style.RESET_ALL}',
-            'ERROR': f'{Fore.RED}{record.levelname}{Style.RESET_ALL}',
-            'WARNING': f'{Fore.YELLOW}{record.levelname}{Style.RESET_ALL}'
-        }.get(record.levelname, record.levelname)
-        message = record.getMessage()
-        return f'{date} {levelname} {message}'
+setup_logger()
+config = load_config()
 
-root_logger = logging.getLogger()
-if not root_logger.hasHandlers():
-    handler = logging.StreamHandler()
-    formatter = ColorFormatter('%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    handler.setFormatter(formatter)
-    root_logger.setLevel(logging.INFO)
-    root_logger.addHandler(handler)
-
-discord_logger = logging.getLogger('discord')
-discord_logger.propagate = False
-
-# Intents
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 client = discord.Client(intents=intents)
 
-async def parse_and_assign_roles(message_content):
-    # Extract player names from the message content using regex
-    player_names = re.findall(r'\b[A-Za-z]+(?:\s[A-Za-z]+)*(?=\s\()', message_content)
-    if not player_names:
-        logging.warning('%s!! No player names found in message content.%s', Fore.LIGHTYELLOW_EX, Style.RESET_ALL)
-        return
-
-    logging.info('%s~ Parsed player names:%s %s', Fore.YELLOW, Style.RESET_ALL, ", ".join(player_names))
-
-    guild = client.get_guild(SERVER_ID)
-    if not guild:
-        logging.error('%s!! Server with ID%s %d %snot found.%s', Fore.RED, Style.RESET_ALL, SERVER_ID, Fore.RED, Style.RESET_ALL)
-        return
-
-    role = discord.utils.get(guild.roles, name=ROLE_NAME)
-    if not role:
-        logging.error('%s!! Role %s%s%s not found in the server.%s', Fore.RED, Style.RESET_ALL, ROLE_NAME, Fore.RED, Style.RESET_ALL)
-        return
-
-    for member in guild.members:
-        if member.nick in player_names or member.name in player_names:
-            if role not in member.roles:
-                try:
-                    await member.add_roles(role)
-                    logging.info('%s+ Assigned %s%s%s role to %s%s', Fore.GREEN, Style.RESET_ALL, ROLE_NAME, Fore.GREEN, Style.RESET_ALL, member.display_name)
-                except discord.Forbidden:
-                    logging.error('%s!! Permission denied assigning role to %s%s', Fore.RED, Style.RESET_ALL, member.display_name)
-                except discord.HTTPException as e:
-                    logging.error('%s!! Failed assigning role to %s%s: %s', Fore.RED, Style.RESET_ALL, member.display_name, e)
-            else:
-                logging.info('%s- %s%s%s already has the %s%s%s role.%s', Fore.BLUE, Style.RESET_ALL, member.display_name, Fore.BLUE, Style.RESET_ALL, ROLE_NAME, Fore.BLUE, Style.RESET_ALL)
-
 @client.event
 async def on_ready():
     logging.info('%s+ Logged in as %s%s', Fore.GREEN, Style.RESET_ALL, client.user)
-    if not client.get_channel(CHANNEL_ID):
-        logging.error('%s!! Channel with ID %s%d%s not found.%s', Fore.RED, Style.RESET_ALL, CHANNEL_ID, Fore.RED, Style.RESET_ALL)
+    guild = client.get_guild(config['SERVER_ID'])
+    if not guild:
+        logging.error('%s!! Server with ID%s %d %snot found.%s', Fore.RED, Style.RESET_ALL, config['SERVER_ID'], Fore.RED, Style.RESET_ALL)
         await client.close()
         return
 
-    await client.get_channel(CHANNEL_ID).send('?who')
+    channel = client.get_channel(config['CHANNEL_ID'])
+    if not channel:
+        logging.error('%s!! Channel with ID %s%d%s not found.%s', Fore.RED, Style.RESET_ALL, config['CHANNEL_ID'], Fore.RED, Style.RESET_ALL)
+        await client.close()
+        return
 
-    if WHO_INTERVAL_ENABLED:
-        logging.info('%s~ WHO interval enabled, running every %d hours%s', Fore.CYAN, WHO_INTERVAL_HOURS, Style.RESET_ALL)
-        asyncio.create_task(who_interval_task(CHANNEL_ID, WHO_INTERVAL_HOURS))
+    await channel.send('?who')
+
+    if config['WHO_INTERVAL_ENABLED']:
+        logging.info('%s~ WHO interval enabled, running every %d hours%s.', Fore.CYAN, config['WHO_INTERVAL_HOURS'], Style.RESET_ALL)
+        asyncio.create_task(who_interval_task(channel, config['WHO_INTERVAL_HOURS']))
 
 @client.event
 async def on_message(message):
-    if message.author.name == WOWCHAT and message.channel.id == CHANNEL_ID:
+    if message.author.name == config['WOWCHAT'] and message.channel.id == config['CHANNEL_ID']:
         if re.match(r'^Currently \d+ guildies online:', message.content):
-            await parse_and_assign_roles(message.content)
+            guild = client.get_guild(config['SERVER_ID'])
+            await parse_and_assign_roles(client, guild, config['ROLE_NAME'], message.content)
 
-async def who_interval_task(channel_id, interval_hours):
+async def who_interval_task(channel, interval_hours):
     while True:
         await asyncio.sleep(interval_hours * 3600)
         logging.info('%s~ Running ?who command%s', Fore.CYAN, Style.RESET_ALL)
-        await client.get_channel(channel_id).send('?who')
+        await channel.send('?who')
 
-client.run(DISCORD_TOKEN)
+client.run(config['DISCORD_TOKEN'])
