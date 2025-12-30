@@ -61,7 +61,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.author.name == config['WOWCHAT'] and message.channel.id == config['CHANNEL_ID']:
-        if re.match(r'^Currently \d+ guildies online:', message.content):
+        if re.match(r'^Currently \d+ guildies? online:', message.content):
             guild = client.get_guild(config['SERVER_ID'])
             await parse_and_assign_roles(client, guild, config['ROLE_NAME'], message.content)
 
