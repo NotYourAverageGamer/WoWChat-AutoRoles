@@ -17,13 +17,11 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 client = discord.Client(intents=intents)
-
 # prevent multiple interval tasks being created each reconnect
-task_started = False
+client.task_started = False
 
 @client.event
 async def on_ready():
-    global task_started
     logging.info(
         '%s+ Logged in as %s%s',
         Fore.GREEN, Style.RESET_ALL, client.user
@@ -47,7 +45,7 @@ async def on_ready():
         await client.close()
         return
 
-    if not task_started:
+    if not client.task_started:
         # only run this once, even after reconnects
         await channel.send('?who')
 
@@ -58,7 +56,7 @@ async def on_ready():
             )
             asyncio.create_task(who_interval_task(channel, config['WHO_INTERVAL_HOURS']))
 
-        task_started = True
+        client.task_started = True
 
 @client.event
 async def on_message(message):
